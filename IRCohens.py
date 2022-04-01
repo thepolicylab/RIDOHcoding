@@ -1,6 +1,8 @@
 from sklearn.metrics import cohen_kappa_score
+from scipy.stats import chi2_contingency
 import csv
 import pandas as pd
+import numpy as np
 
 ####Q1
 
@@ -31,8 +33,8 @@ df.sort_values(by=['Respondent'], inplace=True)
 # df["why_isolation_change_1"] = df["why_isolation_change_1"].astype('float64')
 # df["why_isolation_change_2"] = df["why_isolation_change_2"].astype('float64')
 # df["why_isolation_change_3"] = df["why_isolation_change_3"].astype('float64')
-df.to_csv("~/Desktop/policylab/RIDOHCODING/katiedf.csv")
-print("katie exported")
+#df.to_csv("~/Desktop/policylab/RIDOHCODING/katiedf.csv")
+#print("katie exported")
 
 #Load in Muskaan dataframe and clean
 
@@ -52,12 +54,12 @@ df2.sort_values(by=['Respondent'], inplace= True)
 # df2["why_isolation_change_1"] = df2["why_isolation_change_1"].astype('float64')
 # df2["why_isolation_change_2"] = df2["why_isolation_change_2"].astype('float64')
 # df2["why_isolation_change_3"] = df2["why_isolation_change_3"].astype('float64')
-df2.to_csv("~/Desktop/policylab/RIDOHCODING/muskaandf.csv")
-print("muskaan exported")
+#df2.to_csv("~/Desktop/policylab/RIDOHCODING/muskaandf.csv")
+#print("muskaan exported")
 
 
-combined = df.merge(df2,"inner","Respondent",copy=False,suffixes=('_katie', '_muskaan'))
-combined.to_csv("~/Desktop/policylab/RIDOHCODING/joined.csv")
+#combined = df.merge(df2,"inner","Respondent",copy=False,suffixes=('_katie', '_muskaan'))
+#combined.to_csv("~/Desktop/policylab/RIDOHCODING/joined.csv")
 
 
 #loop through Katie dataframe and populate Katie_sorted_ids and Katie_q1
@@ -88,23 +90,17 @@ for row in df2.itertuples():
         Muskaan_q1[row[1]] = inner_list
         Muskaan_sorted_ids.append(row[1])
 
-#Sorted ids
+#Sort ids in sorted id list
 Katie_sorted_ids.sort()
 Muskaan_sorted_ids.sort()
 
-
-#list of list of codes for each respondent
-Katie_final = []
-Muskaan_final = []
 
 #function that checks if Katie and Muskaan share at least one code for a respondent
 def is_in_list(num):
         KatieList = Katie_q1.get(num)
         KatieList.sort()
-        Katie_final.append(KatieList)
         MuskaanList = Muskaan_q1.get(num)
         MuskaanList.sort()
-        Muskaan_final.append(MuskaanList)
         #If both inner lists are the same length
         if len(KatieList) == len(MuskaanList):
             for i in range(0, len(KatieList)):
@@ -127,31 +123,33 @@ for i in range(0, len(Katie_sorted_ids)):
     if Katie_sorted_ids[i] in Muskaan_sorted_ids:
         inputVal = is_in_list(Katie_sorted_ids[i])
         if inputVal == "no":
-            MuskaanYN_q1.append(Muskaan_final[i][0])
-            KatieYN_q1.append(Katie_final[i][0])
+            #If value is "no" append False to Muskaan and True to Katie so there is a difference
+            MuskaanYN_q1.append(False)
+            KatieYN_q1.append(True)
         else:
-            MuskaanYN_q1.append("yes")
-            KatieYN_q1.append("yes")
+            #Append True to both Muskaan and Katie
+            MuskaanYN_q1.append(True)
+            KatieYN_q1.append(True)
 
 #Q1 cohen's kappa RI
-print("Length of overlap")
-print(len(KatieYN_q1))
-print("")
+# print("Length of overlap")
+# print(len(KatieYN_q1))
+# print("")
 
-yes_count_q1 = 0
+# yes_count_q1 = 0
 
-for i in KatieYN_q1:
-    if i == "yes":
-        yes_count_q1 += 1
-
-
-print("yes proportion question 1")
-print(yes_count_q1/len(KatieYN_q1))
-print("")
+# for i in KatieYN_q1:
+#     if i == "yes":
+#         yes_count_q1 += 1
 
 
-q1IR = cohen_kappa_score(KatieYN_q1, MuskaanYN_q1)
-print("kappa for q1")
+# print("yes proportion question 1")
+# print(yes_count_q1/len(KatieYN_q1))
+# print("")
+
+obs = np.array([KatieYN_q1, MuskaanYN_q1])
+q1IR = chi2_contingency(obs)
+print("chi2 for q1")
 print(q1IR)
 
 #Q2

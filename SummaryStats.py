@@ -40,7 +40,7 @@ df2["why_isolation_change_3"] = df2["why_isolation_change_3"].astype('float64')
 
 #Q1 summary stats
 
-#list of responses for q 1
+#list of responses for q 1 (a list of lists)
 Katie_q1 = []
 
 Muskaan_q1 = []
@@ -70,24 +70,42 @@ for row in df2.itertuples():
         Muskaan_q1.append(inner_list)
 
 
-#Generates summary for only one
-def summary_gen(code: int, name1: bool, name2: bool, list1: list, list2: list):
-    if (name1 == True) and (name2 == False):
-        count = 0
-        for i in list1:
-            if code in i:
-                count += 1
-        return count/len(list1)
-    elif (name2 == True) and (name1 == False):
-        count = 0
-        for i in list2:
-            if code in i:
-                count += 1
-        return count/len(list2)
-    else:
-        return 0
+#Generates counts of a code value for katie code only
+def summary_gen_katie(code: int):
+    count = 0
+    for i in Katie_q1:
+        if code in i:
+            count += 1
+    return count
 
-# generating combined summary stats
+#dictionary for katie
+Katie_count_dict = {}
+
+#loops through all of katie q1 list
+for id in range(0, len(Katie_q1)):
+    values = Katie_q1[id]
+    for value in values:
+        if (value not in Katie_count_dict.keys()):
+            Katie_count_dict[value] = summary_gen_katie(value)
+
+
+#Generates frequency for muskaan
+def summary_gen_muskaan(code: int):
+    count = 0
+    for i in Muskaan_q1:
+        if code in i:
+            count += 1
+    return count
+
+#dictionary for muskaan
+Muskaan_count_dict = {}
+
+#loops through all of muskaan q1 list
+for id in range(0, len(Muskaan_q1)):
+    values = Muskaan_q1[id]
+    for value in values:
+        if (value not in Muskaan_count_dict.keys()):
+            Muskaan_count_dict[value] = summary_gen_muskaan(value)
 
 # Q1
 combined_dict_mremove = {}
@@ -133,13 +151,11 @@ print("Combined summary q1 Katie overlap")
 print(mremove_freq)
 
 print("Combined dataset with Muskaan overlap removed")
-print(combined_dict_mremove)
+#print(combined_dict_mremove)
 
-print("freq of code 2 for Muskaan")
-print(summary_gen(2, False, True, Katie_q1, Muskaan_q1))
+print("freq for Katie")
+print(Katie_count_dict)
 
-print("freq of code 2 for both")
-print(summary_gen(2, True, True, Katie_q1, Muskaan_q1))
 
 
 #Testing
