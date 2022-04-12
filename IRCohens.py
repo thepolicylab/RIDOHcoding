@@ -320,7 +320,6 @@ for i in range(0, len(Muskaan_sorted_ids_3)):
 for i in range(0, len(Katie_sorted_ids_3)):
     if Katie_sorted_ids_3[i] in Muskaan_sorted_ids_3:
         Katie_final_ids_3.append(Katie_sorted_ids_3[i])
-
 def is_in_list(num):
     KatieList = Katie_q3.get(num)
     KatieList.sort()
