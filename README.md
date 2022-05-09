@@ -1,6 +1,6 @@
 # RIDOH Survey Textual Analysis Project
 
-Textual Analyses of COVID-19 RIDOH survey response data. Methods and results include:
+Textual Analyses of COVID-19 RIDOH survey response data. Methods include:
 - Text cleaning(lemmatization, tokenization, stop word removal)
 - [term frequency - inverse document frequency](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) generation
 - Word cloud generation
