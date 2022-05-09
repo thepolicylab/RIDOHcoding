@@ -21,7 +21,18 @@ To run the Jupyter notebook, please install [poetry](https://python-poetry.org/d
     - `poetry install`
 4. Execute the code cells in the Jupyter Notebook
 
-## Apendix
+## Resources
+
+[Spacy documentation](https://spacy.io/)
+
+[term frequency - inverse document frequency walkthrough](https://towardsdatascience.com/lovecraft-with-natural-language-processing-part-3-tf-idf-vectors-8c2d4df98621)
+- [sklearn.TfidfTransformer vs. sklearn.TfidfVectorizer](https://kavita-ganesan.com/tfidftransformer-tfidfvectorizer-usage-differences/#.Ynlu5RPMJQI)
+
+[Python Word Cloud library](https://peekaboo-vision.blogspot.com/2012/11/a-wordcloud-in-python.html)
+
+[Spacy.Vectors](https://spacy.io/api/vectors)
+
+[t-SNE walkthrough](https://danielmuellerkomorowska.com/2021/01/05/introduction-to-t-sne-in-python-with-scikit-learn/)
 
 
 
